@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIGI Media & Creative Agency - Create. Connect. Grow.</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#9333EA', /* Ungu lebih pekat & kontras */
+                            blue: '#2563EB',   /* Biru lebih kontras */
+                            teal: '#0D9488',   /* Toska tua kontras */
+                            dark: '#060814',   /* Latar belakang lebih gelap pekat untuk kontras maksimal */
+                            darkLight: '#111827' /* Abu-abu gelap untuk card */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #060814;
+            color: #F9FAFB; /* Teks default abu-abu sangat terang agar mudah dibaca */
+            overflow-x: hidden;
+        }
+        /* Custom Glowing and Glassmorphism with High Contrast Border */
+        .glass-card {
+            background: rgba(17, 24, 39, 0.85); /* Lebih pekat untuk keterbacaan teks di atasnya */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15); /* Border dipertebal */
+        }
+        .text-glow-purple {
+            text-shadow: 0 0 12px rgba(147, 51, 234, 0.6);
+        }
+        .text-glow-teal {
+            text-shadow: 0 0 12px rgba(13, 148, 136, 0.6);
+        }
+        .gradient-bg {
+            background: radial-gradient(circle at 10% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.12) 0%, transparent 50%);
+        }
+        /* Custom Audio Equalizer Animation */
+        .bar {
+            width: 3px;
+            height: 3px;
+            background-color: #0D9488;
+            animation: bounce 1s ease-in-out infinite alternate;
+        }
+        .bar:nth-child(2) { animation-delay: 0.2s; height: 5px; }
+        .bar:nth-child(3) { animation-delay: 0.4s; height: 4px; }
+        .bar:nth-child(4) { animation-delay: 0.1s; height: 6px; }
+        .paused .bar {
+            animation-play-state: paused !important;
+            height: 3px !important;
+        }
+        @keyframes bounce {
+            0% { height: 3px; }
+            100% { height: 18px; }
+        }
+    </style>
+</head>
+<body class="gradient-bg antialiased">
+
+    <!-- Background Audio Element -->
+    <audio id="bg-music" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-lo-fi-dreams-1412.mp3" type="audio/mpeg">
+        Browser kamu tidak mendukung pemutar musik ini.
+    </audio>
+
+    <!-- Floating WhatsApp Action -->
+    <a href="https://wa.me/6289677844025?text=Halo%20TIGI%20Agency,%20saya%20tertarik%20untuk%20konsultasi%20layanan%20kreatif%20dengan%20harga%20promo!" 
+       target="_blank" 
+       class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-xl hover:scale-110 transition-transform duration-300 flex items-center justify-center gap-2 group">
+        <i class="fab fa-whatsapp text-2xl"></i>
+        <span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 ease-out whitespace-nowrap font-bold">Chat TIGI</span>
+    </a>
+
+    <!-- Floating Music Player Widget -->
+    <div id="music-widget" class="fixed bottom-6 left-6 z-50 glass-card p-3 rounded-2xl flex items-center gap-3 shadow-xl max-w-xs transition-all duration-300 hover:border-brand-teal/50">
+        <button id="music-toggle" class="w-10 h-10 rounded-xl bg-brand-teal text-white flex items-center justify-center focus:outline-none hover:bg-brand-teal/80 transition-colors">
+            <i id="music-icon" class="fa-solid fa-play"></i>
+        </button>
+        <div class="flex flex-col pr-2">
+            <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Latar Musik</span>
+            <span class="text-xs font-bold text-white whitespace-nowrap">TIGI Lofi Vibes ☕</span>
+        </div>
+        <!-- Visualizer Bars -->
+        <div id="visualizer" class="flex items-end gap-[2px] h-5 px-1 paused">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-40 w-full border-b border-white/10 bg-brand-dark/90 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3">
+                <img src="WhatsApp Image 2026-07-15 at 08.35.30_2.jpeg" 
+                     alt="TIGI Logo" 
+                     class="h-12 w-auto rounded-lg border border-white/20 shadow-lg object-contain"
+                     onerror="this.src='https://placehold.co/100x100/111827/ffffff?text=TIGI'">
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-xl tracking-wider text-white">TIGI</span>
+                    <span class="text-[9px] uppercase tracking-widest text-brand-teal font-extrabold">Media & Creative</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-200">
+                <a href="#about" class="hover:text-white hover:text-glow-purple transition-all">Tentang Kami</a>
+                <a href="#services" class="hover:text-white hover:text-glow-purple transition-all">Layanan</a>
+                <a href="#portfolio" class="hover:text-white hover:text-glow-purple transition-all">Hasil Karya</a>
+                <a href="#pricing" class="hover:text-white hover:text-glow-purple transition-all">Daftar Paket</a>
+                <a href="#testimonials" class="hover:text-white hover:text-glow-purple transition-all">Review</a>
+            </nav>
+
+            <!-- CTA Header -->
+            <div class="hidden md:flex items-center gap-4">
+                <a href="https://instagram.com/by.tigi_" target="_blank" class="text-slate-300 hover:text-brand-purple transition-colors text-2xl">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://wa.me/6289677844025" 
+                   class="bg-gradient-to-r from-brand-purple to-brand-blue hover:scale-105 px-6 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 shadow-md shadow-brand-purple/20 text-white">
+                    Mulai Kolaborasi
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none p-2" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars-staggered text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-dark/95 border-b border-white/10 px-6 py-6 space-y-4 transition-all">
+            <a href="#about" class="block text-slate-100 hover:text-white text-lg font-bold">Tentang Kami</a>
+            <a href="#services" class="block text-slate-100 hover:text-white text-lg font-bold">Layanan</a>
+            <a href="#portfolio" class="block text-slate-100 hover:text-white text-lg font-bold">Hasil Karya</a>
+            <a href="#pricing" class="block text-slate-100 hover:text-white text-lg font-bold">Daftar Paket</a>
+            <a href="#testimonials" class="block text-slate-100 hover:text-white text-lg font-bold">Review</a>
+            <div class="pt-4 flex items-center gap-4 border-t border-white/10">
+                <a href="https://instagram.com/by.tigi_" target="_blank" class="text-slate-300 hover:text-brand-purple text-3xl">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://wa.me/6289677844025" 
+                   class="w-full text-center bg-gradient-to-r from-brand-purple to-brand-teal px-5 py-3 rounded-xl text-sm font-bold text-white">
+                    Hubungi WhatsApp
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-10 pb-20 overflow-hidden">
+        <!-- Floating glows -->
+        <div class="absolute top-1/4 left-10 w-72 h-72 bg-brand-purple/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-1/4 right-10 w-80 h-80 bg-brand-teal/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <!-- Gen Z Pill Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-slate-100 mb-8 shadow-inner">
+                <span class="w-2.5 h-2.5 rounded-full bg-brand-teal animate-pulse"></span>
+                <span>🔥 #1 Kreatif Partner untuk Brand Masa Kini (Aceh Area)</span>
+            </div>
+
+            <!-- Big Catchy Headings -->
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight mb-6">
+                Bikin Bisnis Kamu <br class="hidden sm:inline">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple via-brand-blue to-brand-teal text-glow-purple">
+                    Gak Cuma Eksis, Tapi Laris!
+                </span>
+            </h1>
+
+            <p class="max-w-3xl mx-auto text-base sm:text-xl text-slate-200 mb-10 leading-relaxed font-medium">
+                TIGI ngebantu UMKM, coffee shop estetik, warung makan, barbershop, dan organisasi di <span class="text-white underline decoration-brand-teal decoration-2 font-bold">Banda Aceh & Aceh Besar</span> buat punya visual kelas atas dengan biaya paling bersahabat!
+            </p>
+
+            <!-- Dual Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#pricing" 
+                   class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-brand-purple to-brand-blue text-white font-extrabold tracking-wide hover:shadow-lg hover:shadow-brand-purple/40 transition-all duration-300 transform hover:-translate-y-1">
+                    Spill Paket Murah Kami 🔥
+                </a>
+                <a href="#portfolio" 
+                   class="w-full sm:w-auto px-8 py-4 rounded-full bg-white/10 border-2 border-white/20 text-white font-bold hover:bg-white/25 transition-all duration-300">
+                    Lihat Hasil Karya ✨
+                </a>
+            </div>
+
+            <!-- Quick highlights -->
+            <div class="grid grid-cols-3 gap-4 max-w-3xl mx-auto mt-20 pt-10 border-t border-white/15">
+                <div class="text-center">
+                    <h3 class="text-2xl sm:text-4xl font-extrabold text-white">100%</h3>
+                    <p class="text-xs sm:text-sm text-slate-300 font-semibold mt-1">Desain Fresh & Estetik</p>
+                </div>
+                <div class="text-center border-x border-white/15">
+                    <h3 class="text-2xl sm:text-4xl font-extrabold text-white">1-on-1</h3>
+                    <p class="text-xs sm:text-sm text-slate-300 font-semibold mt-1">Konsultasi Santai</p>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-2xl sm:text-4xl font-extrabold text-white">Mulai 400rb-an</h3>
+                    <p class="text-xs sm:text-sm text-slate-300 font-semibold mt-1">Sangat Hemat</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 bg-brand-darkLight/50 border-y border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Visual Logo Spotlight -->
+                <div class="relative flex justify-center">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-purple/20 to-brand-teal/20 rounded-3xl blur-3xl pointer-events-none"></div>
+                    <div class="relative glass-card p-8 rounded-3xl max-w-md w-full border-2 border-white/20 text-center transform hover:scale-105 transition-all duration-500">
+                        <img src="WhatsApp Image 2026-07-15 at 08.35.30_2.jpeg" 
+                             alt="TIGI Logo" 
+                             class="w-48 h-48 mx-auto rounded-2xl mb-6 object-cover shadow-2xl border-2 border-brand-teal/30"
+                             onerror="this.src='https://placehold.co/300x300/111827/ffffff?text=TIGI+Creative'">
+                        <h4 class="text-2xl font-extrabold tracking-wide text-white mb-1">TIGI Media & Creative Agency</h4>
+                        <span class="text-brand-teal text-sm font-extrabold tracking-widest uppercase">CREATE. CONNECT. GROW.</span>
+                        <p class="text-sm text-slate-200 mt-4 leading-relaxed font-medium">
+                            Kreator lokal berbasis di Banda Aceh yang siap memoles brand kuliner, barbershop, startup, dan organisasi kamu menjadi keren luar biasa.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Text Content -->
+                <div class="space-y-6">
+                    <span class="text-xs uppercase tracking-widest text-brand-purple font-extrabold bg-brand-purple/10 px-3 py-1 rounded-full">Tentang TIGI</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">Solusi Kreatif Serba Ada, Tanpa Bikin Dompet Boncos!</h2>
+                    <p class="text-slate-200 leading-relaxed font-medium">
+                        Kami sadar bahwa sebagai pemilik bisnis di awal perjalanan, anggaran adalah segalanya. Kami menghadirkan **one-stop creative solution** dengan kualitas profesional, ramah kantong, dan disukai target pasar Gen Z. Berdasarkan berkas <span class="text-brand-teal font-semibold">Profil_Usaha_TIGI_A4.pdf</span>, kami mengedepankan kepribadian brand yang <strong class="text-white">Creative, Friendly, dan Professional</strong>.
+                    </p>
+                    
+                    <!-- Bullet points -->
+                    <div class="space-y-4 pt-4">
+                        <div class="flex items-start gap-4">
+                            <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-brand-purple/20 flex items-center justify-center text-brand-purple border border-brand-purple/30">
+                                <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+                            </span>
+                            <div>
+                                <h5 class="font-extrabold text-white text-base">Desain Modern Sesuai Tren</h5>
+                                <p class="text-sm text-slate-300 font-medium">Visual segar yang langsung nyangkut di benak calon konsumen modern.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-brand-teal/20 flex items-center justify-center text-brand-teal border border-brand-teal/30">
+                                <i class="fa-solid fa-bolt text-lg"></i>
+                            </span>
+                            <div>
+                                <h5 class="font-extrabold text-white text-base">Proses Cepat & Sat Set</h5>
+                                <p class="text-sm text-slate-300 font-medium">Komunikasi responsif langsung lewat WA tanpa birokrasi berbelit.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-brand-blue/20 flex items-center justify-center text-brand-blue border border-brand-blue/30">
+                                <i class="fa-solid fa-tag text-lg"></i>
+                            </span>
+                            <div>
+                                <h5 class="font-extrabold text-white text-base">Harga Kawan / Pemula</h5>
+                                <p class="text-sm text-slate-300 font-medium">Sangat cocok untuk owner baru yang baru memulai langkah pertamanya.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="text-xs uppercase tracking-widest text-brand-teal font-extrabold bg-brand-teal/10 px-3 py-1 rounded-full">Layanan Terbaik</span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-3">Segala Kebutuhan Kreatif-mu Ada Di Sini</h2>
+            <p class="text-slate-300 mt-4 font-medium text-base">Kami siapkan semua instrumen digital agar usahamu dapat langsung bersaing di pasar modern.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Service 1 -->
+            <div class="glass-card p-6 rounded-2xl hover:border-brand-purple/80 transition-all duration-300 group">
+                <div class="w-12 h-12 rounded-xl bg-brand-purple/20 border border-brand-purple/30 flex items-center justify-center text-brand-purple mb-6 text-xl group-hover:bg-brand-purple group-hover:text-white transition-all">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+                <h4 class="text-lg font-extrabold text-white mb-2">Desain Grafis & Branding</h4>
+                <p class="text-sm text-slate-300 leading-relaxed font-medium">Pembuatan logo ikonik, kartu nama, menu kafe, hingga kemasan/packaging yang memikat mata pembeli.</p>
+            </div>
+            <!-- Service 2 -->
+            <div class="glass-card p-6 rounded-2xl hover:border-brand-blue/80 transition-all duration-300 group">
+                <div class="w-12 h-12 rounded-xl bg-brand-blue/20 border border-brand-blue/30 flex items-center justify-center text-brand-blue mb-6 text-xl group-hover:bg-brand-blue group-hover:text-white transition-all">
+                    <i class="fa-solid fa-hashtag"></i>
+                </div>
+                <h4 class="text-lg font-extrabold text-white mb-2">Social Media Management</h4>
+                <p class="text-sm text-slate-300 leading-relaxed font-medium">Bikin feeds Instagram & TikTok jadi rapi, terjadwal, lengkap dengan riset caption dan hashtag hits.</p>
+            </div>
+            <!-- Service 3 -->
+            <div class="glass-card p-6 rounded-2xl hover:border-brand-teal/80 transition-all duration-300 group">
+                <div class="w-12 h-12 rounded-xl bg-brand-teal/20 border border-brand-teal/30 flex items-center justify-center text-brand-teal mb-6 text-xl group-hover:bg-brand-teal group-hover:text-white transition-all">
+                    <i class="fa-solid fa-camera-retro"></i>
+                </div>
+                <h4 class="text-lg font-extrabold text-white mb-2">Foto & Video Kreatif</h4>
+                <p class="text-sm text-slate-300 leading-relaxed font-medium">Produksi video Reels/TikTok estetik cinematic dan foto produk berkualitas tinggi untuk jualan harian.</p>
+            </div>
+            <!-- Service 4 -->
+            <div class="glass-card p-6 rounded-2xl hover:border-brand-purple/80 transition-all duration-300 group">
+                <div class="w-12 h-12 rounded-xl bg-brand-purple/20 border border-brand-purple/30 flex items-center justify-center text-brand-purple mb-6 text-xl group-hover:bg-brand-purple group-hover:text-white transition-all">
+                    <i class="fa-solid fa-laptop-code"></i>
+                </div>
+                <h4 class="text-lg font-extrabold text-white mb-2">Landing Page Bisnis</h4>
+                <p class="text-sm text-slate-300 leading-relaxed font-medium">Bikin website satu halaman super interaktif untuk portofolio atau pendaftaran instan produk/event-mu.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Studies / Portfolio Section -->
+    <section id="portfolio" class="py-20 px-4 sm:px-6 lg:px-8 bg-brand-darkLight/30 border-t border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-xs uppercase tracking-widest text-brand-purple font-extrabold bg-brand-purple/10 px-3 py-1 rounded-full">Portofolio Lokal</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3">Kisah Sukses Klien Kami 🏆</h2>
+                </div>
+                <p class="text-slate-300 max-w-md mt-4 md:mt-0 font-medium text-sm sm:text-base">Inilah bukti nyata bagaimana sentuhan visual yang baik dapat mengubah persepsi dan nilai suatu bisnis lokal di Aceh.</p>
+            </div>
+
+            <!-- Showcase Grid -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Case Study 1 -->
+                <div class="rounded-2xl overflow-hidden glass-card group flex flex-col justify-between hover:border-white/35 transition-all">
+                    <div>
+                        <div class="relative overflow-hidden aspect-video">
+                            <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=600" 
+                                 alt="Kopi Gayo Modern" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                            <span class="absolute top-4 left-4 bg-brand-purple text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Coffee Shop</span>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-extrabold text-white mb-2">Meunasah Kopi & Eatery</h4>
+                            <p class="text-xs text-brand-teal font-extrabold tracking-wider uppercase mb-3">Re-branding & Social Media Management</p>
+                            <p class="text-sm text-slate-300 leading-relaxed font-medium">
+                                Kami merancang ulang visual media sosial dengan konsep estetik minimalis yang disukai oleh anak kuliahan Banda Aceh. 
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 border-t border-white/10 pt-4 flex justify-between text-xs font-bold text-slate-300">
+                        <span><i class="fa-solid fa-chart-line text-brand-teal mr-1"></i> Jangkauan +145%</span>
+                        <span><i class="fa-solid fa-users text-brand-purple mr-1"></i> +2.3k Follower Baru</span>
+                    </div>
+                </div>
+
+                <!-- Case Study 2 -->
+                <div class="rounded-2xl overflow-hidden glass-card group flex flex-col justify-between hover:border-white/35 transition-all">
+                    <div>
+                        <div class="relative overflow-hidden aspect-video">
+                            <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=600" 
+                                 alt="Aceh Barbershop" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                            <span class="absolute top-4 left-4 bg-brand-blue text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Barbershop</span>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-extrabold text-white mb-2">Cut & Shine Barbershop</h4>
+                            <p class="text-xs text-brand-teal font-extrabold tracking-wider uppercase mb-3">Reels & TikTok Editing</p>
+                            <p class="text-sm text-slate-300 leading-relaxed font-medium">
+                                Produksi video berdurasi pendek bertema pangkas rambut trendi retro. Menghasilkan puluhan pelanggan baru yang antre saat akhir pekan.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 border-t border-white/10 pt-4 flex justify-between text-xs font-bold text-slate-300">
+                        <span><i class="fa-solid fa-eye text-brand-teal mr-1"></i> 50k+ Penayangan</span>
+                        <span><i class="fa-solid fa-arrow-trend-up text-brand-purple mr-1"></i> Reservasi Naik 2x</span>
+                    </div>
+                </div>
+
+                <!-- Case Study 3 -->
+                <div class="rounded-2xl overflow-hidden glass-card group flex flex-col justify-between hover:border-white/35 transition-all">
+                    <div>
+                        <div class="relative overflow-hidden aspect-video">
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=600" 
+                                 alt="Thrift Store" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                            <span class="absolute top-4 left-4 bg-brand-teal text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Toko Vintage</span>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-extrabold text-white mb-2">Vintage Vibes Aceh</h4>
+                            <p class="text-xs text-brand-teal font-extrabold tracking-wider uppercase mb-3">Foto Produk & Katalog</p>
+                            <p class="text-sm text-slate-300 leading-relaxed font-medium">
+                                Pengambilan foto katalog baju thrift premium dengan konsep pencahayaan neon aesthetic. Produk langsung terjual habis dalam beberapa jam rilis.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 border-t border-white/10 pt-4 flex justify-between text-xs font-bold text-slate-300">
+                        <span><i class="fa-solid fa-clock text-brand-teal mr-1"></i> Kerja Cepat</span>
+                        <span><i class="fa-solid fa-shopping-cart text-brand-purple mr-1"></i> Sold Out Instan</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing / Packages Section -->
+    <section id="pricing" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="text-xs uppercase tracking-widest text-brand-teal font-extrabold bg-brand-teal/10 px-3 py-1 rounded-full">Paket Harga Perkenalan</span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-3">Investasi Ringan buat Memulai ✨</h2>
+            <p class="text-slate-200 mt-4 font-medium text-base">Kami hadir dengan harga promosi awal yang sangat ramah di dompet, khusus untuk membantu UMKM lokal bertumbuh.</p>
+        </div>
+
+        <!-- Pricing Tiers -->
+        <div class="grid md:grid-cols-3 gap-8 items-start">
+            <!-- Paket 1: Starter (Branding & Design) -->
+            <div class="glass-card rounded-3xl p-8 border-2 border-white/15 relative flex flex-col justify-between h-full hover:border-slate-400 transition-all">
+                <div>
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="text-xl font-extrabold text-white">Paket Starter</h4>
+                        <span class="bg-brand-teal/20 text-brand-teal text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">Hemat Pol</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-medium mb-6">Cocok buat kamu yang baru rintis usaha / personal brand</p>
+                    
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span class="text-4xl font-extrabold text-white">Rp 499rb</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 font-bold mb-6 line-through">Harga Normal: Rp 1.200.000</div>
+
+                    <ul class="space-y-4 text-sm text-slate-200 border-t border-white/10 pt-6 font-medium">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>Desain Logo Profesional (2 Opsi)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>Basic Brand Kit (Kode Warna & Font)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>6 Template Feeds Instagram (Canva)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>3 Template Desain Story/Highlight</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-500 line-through">
+                            <span>Foto Produk & Video Reels</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-500 line-through">
+                            <span>Laporan Performa Bulanan</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mt-8">
+                    <a href="https://wa.me/6289677844025?text=Halo%20TIGI,%20saya%20tertarik%20dengan%20Promo%20Paket%20Starter%20Rp%20499rb!" 
+                       target="_blank"
+                       class="block w-full py-3.5 px-6 rounded-xl text-center text-sm font-extrabold bg-white/10 hover:bg-white/20 text-white transition-all border border-white/25">
+                        Ambil Paket Starter
+                    </a>
+                </div>
+            </div>
+
+            <!-- Paket 2: Grow (Sosmed Master) - BEST SELLER -->
+            <div class="glass-card rounded-3xl p-8 border-2 border-brand-purple relative flex flex-col justify-between h-full transform lg:scale-105 shadow-2xl shadow-brand-purple/25">
+                <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-purple to-brand-blue text-white text-xs font-extrabold px-4 py-2 rounded-full tracking-wider uppercase shadow-lg">Promo Best Seller ⭐</span>
+                <div>
+                    <div class="flex justify-between items-start mb-2 mt-2">
+                        <h4 class="text-xl font-extrabold text-white">Paket Grow (Sosmed)</h4>
+                    </div>
+                    <p class="text-xs text-slate-200 font-medium mb-6">Sosmed diurus rapi, kamu fokus layani pesanan saja!</p>
+                    
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span class="text-4xl font-extrabold text-white">Rp 1.299jt</span>
+                        <span class="text-xs text-slate-300 font-bold">/ bulan</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 font-bold mb-6 line-through">Harga Normal: Rp 2.500.000 / bln</div>
+
+                    <ul class="space-y-4 text-sm text-slate-100 border-t border-brand-purple/30 pt-6 font-medium">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>15 Postingan Konten Medsos bulanan</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>Copywriting Caption & Riset Hashtag</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>4 Editing Video Reels / TikTok (Bahan Klien)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>Penjadwalan Posting & Kontrol Admin</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>1x Sesi Diskusi Strategi Offline (Banda Aceh)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>Laporan Insight Bulanan</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mt-8">
+                    <a href="https://wa.me/6289677844025?text=Halo%20TIGI,%20saya%20tertarik%20dengan%20Promo%20Paket%20Grow%20Sosmed%20Rp%201.299jt!" 
+                       target="_blank"
+                       class="block w-full py-4 px-6 rounded-xl text-center text-sm font-extrabold bg-gradient-to-r from-brand-purple to-brand-blue text-white transition-all hover:opacity-90 shadow-md">
+                        Pilih Paket Grow (Medsos)
+                    </a>
+                </div>
+            </div>
+
+            <!-- Paket 3: Ultimate (Full Agency) -->
+            <div class="glass-card rounded-3xl p-8 border-2 border-white/15 relative flex flex-col justify-between h-full hover:border-slate-400 transition-all">
+                <div>
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="text-xl font-extrabold text-white">Paket Ultimate</h4>
+                        <span class="bg-brand-blue/25 text-brand-blue text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">Super Lengkap</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-medium mb-6">Paket lengkap untuk buat visual luar biasa dari awal</p>
+                    
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span class="text-4xl font-extrabold text-white">Rp 2.499jt</span>
+                        <span class="text-xs text-slate-300 font-bold">/ project</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 font-bold mb-6 line-through">Harga Normal: Rp 4.900.000 / project</div>
+
+                    <ul class="space-y-4 text-sm text-slate-200 border-t border-white/10 pt-6 font-medium">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>Branding Kit Komplit (Logo & Panduan)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>1 Halaman Landing Page Bisnis (Spt Web Ini)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>Sesi Foto & Video On-Location (Banda Aceh)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>10 Desain Feed Premium Siap Posting</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>Free Custom Domain (.com / .id) selama 1 Thn</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-teal text-base"></i>
+                            <span>Penyerahan File Master & Source Code</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mt-8">
+                    <a href="https://wa.me/6289677844025?text=Halo%20TIGI,%20saya%20tertarik%20dengan%20Promo%20Paket%20Ultimate%20Rp%202.499jt!" 
+                       target="_blank"
+                       class="block w-full py-3.5 px-6 rounded-xl text-center text-sm font-extrabold bg-white/10 hover:bg-white/20 text-white transition-all border border-white/25">
+                        Pesan Paket Ultimate
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 px-4 sm:px-6 lg:px-8 bg-brand-darkLight/30 border-t border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase tracking-widest text-brand-purple font-extrabold bg-brand-purple/10 px-3 py-1 rounded-full">Testimoni Klien</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3">Kata Mereka Tentang Kami 💬</h2>
+                <p class="text-slate-300 mt-4 font-medium text-base">Ulasan jujur dan kepuasan dari para pelaku bisnis lokal setelah berkolaborasi dengan TIGI.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between hover:border-white/30 transition-all">
+                    <p class="text-slate-100 italic text-sm leading-relaxed mb-6 font-medium">
+                        "Gokil sih! Awalnya iseng nyobain paket Starter buat warkop aku di Banda Aceh. Logo barunya keren banget, estetik dan langsung masuk selera anak muda zaman sekarang. Sangat worth-it!"
+                    </p>
+                    <div class="flex items-center gap-3 border-t border-white/10 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-purple/20 flex items-center justify-center font-extrabold text-brand-purple text-sm border border-brand-purple/30">
+                            MH
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-extrabold text-white">Mhd. Haikal</h5>
+                            <span class="text-xs text-brand-teal font-bold">Owner Kopi Semeja</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between border-2 border-brand-purple/30 hover:border-brand-purple transition-all">
+                    <p class="text-slate-100 italic text-sm leading-relaxed mb-6 font-medium">
+                        "Tim TIGI kerjanya cepet dan ga ribet. Kemarin dibikinin video cinematic buat barbershop kami, langsung rame yang mampir weekend berikutnya. Harganya juga bersahabat banget untuk pemula!"
+                    </p>
+                    <div class="flex items-center gap-3 border-t border-white/10 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-blue/20 flex items-center justify-center font-extrabold text-brand-blue text-sm border border-brand-blue/30">
+                            RF
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-extrabold text-white">Rivaldi F.</h5>
+                            <span class="text-xs text-brand-purple font-bold">Founder Sharp & Cut Barber</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between hover:border-white/30 transition-all">
+                    <p class="text-slate-100 italic text-sm leading-relaxed mb-6 font-medium">
+                        "Enak banget pake Paket Grow-nya. Gak perlu pusing bikin konten tiap hari, adminnya super responsif diajak diskusi. Feeds Instagram kami sekarang jadi rapi banget dan kelihatan sangat berkelas."
+                    </p>
+                    <div class="flex items-center gap-3 border-t border-white/10 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-teal/20 flex items-center justify-center font-extrabold text-brand-teal text-sm border border-brand-teal/30">
+                            NS
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-extrabold text-white">Nadia Syifa</h5>
+                            <span class="text-xs text-brand-teal font-bold">Marketing Thrift Aceh Besar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call To Action (Bottom CTA) -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 text-center max-w-5xl mx-auto relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-purple/10 to-brand-teal/10 rounded-3xl blur-3xl pointer-events-none"></div>
+        <div class="glass-card p-12 sm:p-16 rounded-3xl border-2 border-white/15 relative z-10">
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white leading-tight mb-4">
+                Mulai Perjalanan Kreatif <br>
+                Brand-mu Bersama TIGI!
+            </h2>
+            <p class="text-slate-200 max-w-xl mx-auto mb-10 text-sm sm:text-base font-medium">
+                Konsultasikan kebutuhan bisnismu sekarang juga secara gratis lewat WhatsApp. Promo slot awal sangat terbatas setiap bulannya!
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/6289677844025?text=Halo%20TIGI,%20saya%20tertarik%20untuk%20mengkonsultasikan%20brand%20saya%20dengan%20harga%20promo." 
+                   target="_blank"
+                   class="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-teal hover:bg-brand-teal/90 text-white font-extrabold tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-brand-teal/20">
+                    <i class="fab fa-whatsapp text-lg"></i>
+                    Konsultasi Gratis Sekarang
+                </a>
+                <a href="https://instagram.com/by.tigi_" 
+                   target="_blank"
+                   class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/10 border border-white/20 text-white font-bold hover:bg-white/20 transition-all flex items-center justify-center gap-2">
+                    <i class="fab fa-instagram"></i>
+                    Follow @by.tigi_
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 bg-brand-dark/95 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <!-- Branding -->
+            <div class="flex items-center gap-3">
+                <img src="WhatsApp Image 2026-07-15 at 08.35.30_2.jpeg" 
+                     alt="TIGI" 
+                     class="h-10 w-auto rounded-lg border border-white/10 shadow"
+                     onerror="this.src='https://placehold.co/100x100/111827/ffffff?text=TIGI'">
+                <div>
+                    <span class="font-extrabold text-white tracking-wider">TIGI Media & Creative</span>
+                    <p class="text-xs text-slate-400 font-medium">© 2026 TIGI Agency. All rights reserved.</p>
+                </div>
+            </div>
+
+            <!-- Socials & Info -->
+            <div class="flex flex-col items-center md:items-end gap-2 text-sm text-slate-300 font-medium">
+                <p>📍 Banda Aceh & Aceh Besar, Indonesia</p>
+                <div class="flex gap-4 font-bold">
+                    <a href="https://instagram.com/by.tigi_" target="_blank" class="hover:text-brand-purple transition-all"><i class="fab fa-instagram mr-1"></i> @by.tigi_</a>
+                    <span>|</span>
+                    <a href="tel:+6289677844025" class="hover:text-brand-teal transition-all"><i class="fa-solid fa-phone mr-1"></i> 089677844025</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Navigation & Audio Scripts -->
+    <script>
+        // Mobile menu toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close menu when link is clicked
+        const links = menu.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Custom Music Player Controls
+        const music = document.getElementById('bg-music');
+        const musicToggle = document.getElementById('music-toggle');
+        const musicIcon = document.getElementById('music-icon');
+        const visualizer = document.getElementById('visualizer');
+
+        // Initial audio configurations (lower volume for nice background chill ambiance)
+        music.volume = 0.35;
+
+        musicToggle.addEventListener('click', () => {
+            if (music.paused) {
+                music.play().then(() => {
+                    musicIcon.classList.remove('fa-play');
+                    musicIcon.classList.add('fa-pause');
+                    visualizer.classList.remove('paused');
+                }).catch(err => {
+                    console.log("Autoplay dicegah oleh browser, membutuhkan interaksi pengguna langsung.", err);
+                });
+            } else {
+                music.pause();
+                musicIcon.classList.remove('fa-pause');
+                musicIcon.classList.add('fa-play');
+                visualizer.classList.add('paused');
+            }
+        });
+
+        // Optional: Auto-trigger play on first user interaction on page (to bypass browser autoplay block rules)
+        const triggerMusicOnFirstInteraction = () => {
+            if (music.paused) {
+                music.play().then(() => {
+                    musicIcon.classList.remove('fa-play');
+                    musicIcon.classList.add('fa-pause');
+                    visualizer.classList.remove('paused');
+                }).catch(() => {});
+            }
+            // Remove listeners once triggered
+            window.removeEventListener('click', triggerMusicOnFirstInteraction);
+            window.removeEventListener('touchstart', triggerMusicOnFirstInteraction);
+        };
+
+        window.addEventListener('click', triggerMusicOnFirstInteraction);
+        window.addEventListener('touchstart', triggerMusicOnFirstInteraction);
+    </script>
+</body>
+</html>
